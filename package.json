@@ -1,0 +1,29 @@
+{
+  "name": "ts-node-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec ts-node src/index.ts",
+    "typeorm": "./node_modules/.bin/typeorm"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/mongodb": "^3.0.18",
+    "@types/restify": "^5.0.7",
+    "@types/restify-cors-middleware": "^1.0.1",
+    "mongodb": "^3.0.7",
+    "nodemon": "^1.17.3",
+    "pg": "^7.4.1",
+    "reflect-metadata": "^0.1.12",
+    "restify": "^7.1.1",
+    "restify-cors-middleware": "^1.1.0",
+    "rimraf": "^2.6.2",
+    "ts-node": "^5.0.1",
+    "typeorm": "^0.2.0-alpha.46",
+    "typescript": "^2.8.1"
+  }
+}
