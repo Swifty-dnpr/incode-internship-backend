@@ -18,7 +18,7 @@ export class CategoryService {
     console.log(`Getting category with title: ${title}`);
     const connection = await DatabaseProvider.getConnection();
     try {
-      return await connection.mongoManager.findOne(Category, {m_title: title.toLowerCase()});
+      return await connection.mongoManager.findOne(Category, {alias: title.toLowerCase()});
     } catch (err) {
       throw new Error(err);
     }
@@ -28,7 +28,7 @@ export class CategoryService {
     console.log('Creating new category')
     const ctgry = new Category();
     ctgry.title = category.title;
-    ctgry.m_title = category.title.split(' ').join('').toLowerCase();
+    ctgry.alias = category.title.split(' ').join('').toLowerCase();
     ctgry.description = category.description;
     const connection = await DatabaseProvider.getConnection();
     const manager = connection.mongoManager;
@@ -43,7 +43,7 @@ export class CategoryService {
   public async list(): Promise<Category[]> {
     console.log('Returning list of categories');
     const connection = await DatabaseProvider.getConnection();
-    return await connection.mongoManager.find(Category, {});
+    return await connection.mongoManager.find(Category);
   }
 
   public async update(category: {body: string, title: string}, id: string): Promise<Category> {
@@ -78,7 +78,7 @@ export class CategoryService {
     const connection = await DatabaseProvider.getConnection();
     const manager = connection.mongoManager;     
       try {
-        return await manager.findOneAndDelete(Category, { m_title: title.trim().toLowerCase() } );
+        return await manager.findOneAndDelete(Category, { alias: title.trim().toLowerCase() } );
       } catch (err) {
         throw new Error(err);
       }

@@ -14,15 +14,18 @@
     "@types/mongodb": "^3.0.18",
     "@types/restify": "^5.0.7",
     "@types/restify-cors-middleware": "^1.0.1",
-    "mongodb": "^3.0.7",
+    "bcrypt": "^3.0.0",
+    "jsonwebtoken": "^8.3.0",
+    "mongodb": "3.0.8",
     "nodemon": "^1.17.3",
     "pg": "^7.4.1",
     "reflect-metadata": "^0.1.12",
     "restify": "^7.1.1",
     "restify-cors-middleware": "^1.1.0",
+    "restify-jwt-community": "^1.0.7",
     "rimraf": "^2.6.2",
     "ts-node": "^5.0.1",
-    "typeorm": "^0.2.0-alpha.46",
+    "typeorm": "^0.3.0-alpha.10",
     "typescript": "^2.8.1"
   }
 }

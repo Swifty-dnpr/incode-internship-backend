@@ -1,6 +1,6 @@
 import { createConnection, Connection } from 'typeorm';
 import * as config from '../../ormconfig.json';
-import { Product, Category } from '../models';
+import { Product, Category, User } from '../models';
 
 export interface DatabaseConfiguration {
   type: string;
@@ -23,13 +23,15 @@ export class DatabaseProvider {
       return DatabaseProvider.connection;
     }
 
-   DatabaseProvider.connection = await createConnection({
-     type: config.type,
-     host: config.host,
-     port: config.port,
-     database: config.database,
-     entities: [Product, Category]
-   });
+    DatabaseProvider.connection = await createConnection({
+      type: "mongodb",
+      host: "localhost",
+      port: 27017,
+      database: "ng-commerce",
+      entities: [Category, User],
+      logging: false,
+      synchronize: true
+    });
 
    return DatabaseProvider.connection;
   }

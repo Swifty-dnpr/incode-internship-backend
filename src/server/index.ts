@@ -3,6 +3,8 @@ import * as restify from 'restify';
 import { RequestHandler, Server } from 'restify';
 import { CONTOLLERS } from '../controllers';
 import * as Cors  from 'restify-cors-middleware';
+import * as config from '../../config';
+import * as rjwt from 'restify-jwt-community';
 
 const cors = Cors({
   preflightMaxAge: 5,
@@ -46,6 +48,9 @@ export class ApiServer implements HttpServer {
 
   public start(port: number): void {
     this.restify = restify.createServer();
+    this.restify.use(rjwt(config.jwt).unless({
+      path: ['/auth', '/login']
+    }));
     this.restify.use(restify.plugins.bodyParser());
     this.restify.use(restify.plugins.queryParser());
     this.restify.pre(cors.preflight);
