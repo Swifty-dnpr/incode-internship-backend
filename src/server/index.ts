@@ -49,7 +49,7 @@ export class ApiServer implements HttpServer {
   public start(port: number): void {
     this.restify = restify.createServer();
     this.restify.use(rjwt(config.jwt).unless({
-      path: ['/auth', '/login']
+      path: ['/auth', '/login', '/ping']
     }));
     this.restify.use(restify.plugins.bodyParser());
     this.restify.use(restify.plugins.queryParser());

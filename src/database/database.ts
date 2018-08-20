@@ -28,7 +28,7 @@ export class DatabaseProvider {
       host: "localhost",
       port: 27017,
       database: "ng-commerce",
-      entities: [Category, User],
+      entities: [Category, User, Product],
       logging: false,
       synchronize: true
     });
