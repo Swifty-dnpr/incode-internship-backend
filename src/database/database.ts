@@ -1,9 +1,9 @@
 import { createConnection, Connection } from 'typeorm';
-import { Post } from '../models/Post';
-import { Category } from '../models/Category';
+import * as config from '../../ormconfig.json';
+import { Product, Category } from '../models';
 
 export interface DatabaseConfiguration {
-  type: 'mongodb';
+  type: string;
   host: string;
   port: number;
   database: string;
@@ -24,11 +24,11 @@ export class DatabaseProvider {
     }
 
    DatabaseProvider.connection = await createConnection({
-     type: 'mongodb',
-     host: 'localhost',
-     port: 27017,
-     database: 'posts',
-     entities: [Post, Category]
+     type: config.type,
+     host: config.host,
+     port: config.port,
+     database: config.database,
+     entities: [Product, Category]
    });
 
    return DatabaseProvider.connection;
