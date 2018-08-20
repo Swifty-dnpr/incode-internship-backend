@@ -1,0 +1,523 @@
+{
+	"info": {
+		"_postman_id": "f6739e11-6b1e-4dad-9dc1-1bc24100440e",
+		"name": "ng-commerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate(by token)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"login\": \"test\",\n\t\"password\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth"
+							]
+						},
+						"description": "http://localhost:8000/auth\nreturns a context of a current user"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"login\": \"test\",\n\t\"password\": \"test\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"login"
+							]
+						},
+						"description": "http://localhost:8000/login"
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzY3OTQ3LCJleHAiOjE1MzQ3NzA2NDd9.r-e1SgZ07MRPka8cDlhNhd69AKznesOoBYdzOoy4rqw"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8000/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"user"
+							]
+						},
+						"description": "http://localhost:8000/user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "products",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzcyNDk5LCJleHAiOjE1MzQ3NzUxOTl9.YaGP7NUs_BGr0h12PWoc-e5lE0sahGdKFruIeyvEUy8"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:8000/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzcyNDk5LCJleHAiOjE1MzQ3NzUxOTl9.YaGP7NUs_BGr0h12PWoc-e5lE0sahGdKFruIeyvEUy8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"my test product\",\n\t\"description\": \"my very first testing product\",\n\t\"category_title\": \"test\",\n\t\"price\": \"99.99\",\n\t\"stock\": 1\n}"
+						},
+						"url": {
+							"raw": "localhost:8000/products",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products"
+							]
+						},
+						"description": "localhost:8000/products"
+					},
+					"response": []
+				},
+				{
+					"name": "Get products by category name",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzcyNDk5LCJleHAiOjE1MzQ3NzUxOTl9.YaGP7NUs_BGr0h12PWoc-e5lE0sahGdKFruIeyvEUy8"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:8000/products?category=test",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "test"
+								}
+							]
+						},
+						"description": "localhost:8000/products?category=test"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzcyNDk5LCJleHAiOjE1MzQ3NzUxOTl9.YaGP7NUs_BGr0h12PWoc-e5lE0sahGdKFruIeyvEUy8"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8000/products/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5b7ac68522be5d0c325e53b8"
+								}
+							]
+						},
+						"description": "http://localhost:8000/products/:id"
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzcyNDk5LCJleHAiOjE1MzQ3NzUxOTl9.YaGP7NUs_BGr0h12PWoc-e5lE0sahGdKFruIeyvEUy8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"my test product\",\n    \"description\": \"my very first testing product\",\n    \"category_title\": \"test\",\n    \"price\": \"199.99\",\n    \"stock\": 1\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8000/products/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5b7ac68522be5d0c325e53b8"
+								}
+							]
+						},
+						"description": "http://localhost:8000/products/:id"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzcyNDk5LCJleHAiOjE1MzQ3NzUxOTl9.YaGP7NUs_BGr0h12PWoc-e5lE0sahGdKFruIeyvEUy8"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8000/products/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"products",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5b7ac68522be5d0c325e53b8"
+								}
+							]
+						},
+						"description": "http://localhost:8000/products/:id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "categories",
+			"description": "",
+			"item": [
+				{
+					"name": "Create a category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzcyNDk5LCJleHAiOjE1MzQ3NzUxOTl9.YaGP7NUs_BGr0h12PWoc-e5lE0sahGdKFruIeyvEUy8"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"test\",\n\t\"description\": \"my very first testing category\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"categories"
+							]
+						},
+						"description": "localhost:8000/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0NzczNzk5LCJleHAiOjE1MzQ3NzY0OTl9.KsjAYS3BQMsPAEn0EHataySulBYm44jWp6iaNcDCV0w"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:8000/categories/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5b7ac66e22be5d0c325e53b7"
+								}
+							]
+						},
+						"description": "localhost:8000/categories/:id"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0Nzc0Mzc1LCJleHAiOjE1MzQ3NzcwNzV9.kIVn9yT1JrJcCDK9i1Bf8Rcq1qllhmyCxa7spDlpuH4"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:8000/categories",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"categories"
+							]
+						},
+						"description": "localhost:8000/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Update by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0Nzc0Mzc1LCJleHAiOjE1MzQ3NzcwNzV9.kIVn9yT1JrJcCDK9i1Bf8Rcq1qllhmyCxa7spDlpuH4"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\": \"[updated description]\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8000/categories/:id",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5b7ac66e22be5d0c325e53b7"
+								}
+							]
+						},
+						"description": "localhost:8000/categories"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0Nzc0Mzc1LCJleHAiOjE1MzQ3NzcwNzV9.kIVn9yT1JrJcCDK9i1Bf8Rcq1qllhmyCxa7spDlpuH4"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8000/categories/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "5b7ad12de5b1801a65da05d6"
+								}
+							]
+						},
+						"description": "http://localhost:8000/categories/:id"
+					},
+					"response": []
+				},
+				{
+					"name": "Get by title(alias)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2FhMTVmNjlhNDlkNWY4MzdlMWQ4ZCIsImxvZ2luIjoidGVzdCIsInBhc3N3b3JkIjoiJDJiJDEwJDBDbHVrYzlsYkdIQWo5UmFNdFRDbGVGd1UybGV2UTVJdGhTblhNcWMyazRRM0R2TzNOeU1hIiwiaWF0IjoxNTM0Nzc0Mzc1LCJleHAiOjE1MzQ3NzcwNzV9.kIVn9yT1JrJcCDK9i1Bf8Rcq1qllhmyCxa7spDlpuH4"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"test\",\n\t\"description\": \"my very first testing category\"\n}"
+						},
+						"url": {
+							"raw": "localhost:8000/categories?title=test",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"categories"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "test"
+								}
+							]
+						},
+						"description": "localhost:8000/categories/:id"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8000/ping",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"ping"
+					]
+				},
+				"description": "localhost:8000/ping should return string 'hello' if server is up "
+			},
+			"response": []
+		}
+	]
+}

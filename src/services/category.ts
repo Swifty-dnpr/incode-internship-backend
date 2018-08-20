@@ -8,7 +8,7 @@ export class CategoryService {
     console.log(`Getting category with id: ${id}`);
     const connection = await DatabaseProvider.getConnection();
     try {
-      return await connection.mongoManager.findOne(Category, [ id ]);
+      return await connection.mongoManager.findOne(Category, id);
     } catch (err) {
       throw new Error(err);
     }
@@ -46,7 +46,7 @@ export class CategoryService {
     return await connection.mongoManager.find(Category);
   }
 
-  public async update(category: {body: string, title: string}, id: string): Promise<Category> {
+  public async update(category: {body: string, title: string}, id: string): Promise<Object> {
      console.log('Updating a category')
      const connection = await DatabaseProvider.getConnection();
      const manager = connection.mongoManager; 
@@ -61,24 +61,13 @@ export class CategoryService {
       }
   }
 
-  public async delete(id: number): Promise<void> {
+  public async delete(id: ObjectId): Promise<Object> {
     console.log('Deleting a category');
     const connection = await DatabaseProvider.getConnection();
     const manager = connection.mongoManager; 
     const _id = new ObjectId(id);
       try {
         return await manager.findOneAndDelete(Category, {_id} );
-      } catch (err) {
-        throw new Error(err);
-      }
-  }
-
-  public async deleteByTitle(title: number): Promise<void> {
-    console.log('Deleting a category');
-    const connection = await DatabaseProvider.getConnection();
-    const manager = connection.mongoManager;     
-      try {
-        return await manager.findOneAndDelete(Category, { alias: title.trim().toLowerCase() } );
       } catch (err) {
         throw new Error(err);
       }
