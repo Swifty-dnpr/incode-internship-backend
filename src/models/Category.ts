@@ -10,7 +10,7 @@ export class Category {
   public title: string;
 
   @Column({ length: 255 })
-  public m_title: string;
+  public alias: string;
 
   @Column()
   public description: string;

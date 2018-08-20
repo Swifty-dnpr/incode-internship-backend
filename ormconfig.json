@@ -2,7 +2,9 @@
   "type": "mongodb",
   "host": "localhost",
   "port": 21017,
-  "database": "test",
+  "username": "",
+  "password": "",
+  "database": "ng-commerce",
   "synchronize": true,
   "logging": false,
   "entities": [

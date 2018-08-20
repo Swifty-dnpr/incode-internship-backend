@@ -1,10 +1,10 @@
-import { PostController } from './post';
 import { PingController } from './ping';
 import { CategoryController } from './categories';
+import { AuthController } from './auth';
 import "reflect-metadata";
 
 export const CONTOLLERS = [
-  new PostController(),
   new CategoryController(),
-  new PingController()
+  new PingController(),
+  new AuthController()
 ]

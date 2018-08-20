@@ -1,7 +1,7 @@
 import { Entity, ObjectID, ObjectIdColumn, Column } from 'typeorm';
 
 @Entity()
-export class Post {
+export class Product {
 
   @ObjectIdColumn()
   public id: ObjectID;
@@ -10,11 +10,18 @@ export class Post {
   public title: string;
 
   @Column()
-  public body: string;
+  public description: string;
 
   @Column()
   public category_id: ObjectID;
   
   @Column()
   public category_title: string;
+
+  @Column()
+  public price: string;
+
+  @Column()
+  public stock: number;
+
 }
