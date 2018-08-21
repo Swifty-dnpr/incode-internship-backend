@@ -1,0 +1,14 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Incode Internship Backend
+  description: 
+    Simple e-commerce back-end application API.
+host: localhost:8000
+basePath: /
+schemes: 
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json

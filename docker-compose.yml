@@ -1,0 +1,21 @@
+version: "2"
+services: 
+  node:
+    image: "node:latest"
+    user: "node"
+    working_dir: /app
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/app
+    ports: 
+      - "3000:3000"
+    expose:
+      - "3000"
+    command: "npm run build"
+    links:
+      - mongo
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
