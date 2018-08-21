@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "rimraf build && tsc",
+    "start-server": "node build/index.js",
     "start": "nodemon --exec ts-node src/index.ts",
     "typeorm": "./node_modules/.bin/typeorm"
   },
@@ -24,8 +26,10 @@
     "restify-cors-middleware": "^1.1.0",
     "restify-jwt-community": "^1.0.7",
     "rimraf": "^2.6.2",
+    "swagger-tools": "^0.10.4",
     "ts-node": "^5.0.1",
     "typeorm": "^0.3.0-alpha.10",
-    "typescript": "^2.8.1"
+    "typescript": "^2.8.1",
+    "yamljs": "^0.3.0"
   }
 }

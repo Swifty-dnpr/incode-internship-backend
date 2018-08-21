@@ -1,0 +1,406 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Incode Internship Backend
+host: localhost:8000
+schemes:
+  - http
+paths:
+###############################################################################
+# PING
+  /ping:
+    get:
+      summary: Check status of server
+      tags: 
+        - Basic
+      operationId: "pingServer"
+      responses:
+        200:
+          description: "Greetings from server"
+          
+###############################################################################
+# AUTHENTICATION
+  /auth:
+    post:
+      summary: Creates a new user
+      operationId: registerUser
+      tags: 
+        - Auth
+      produces:
+        - "application/json"
+      consumes:
+        - "application/json"
+      parameters:
+      - in: body
+        name: body
+        required: true
+        description: Data to register a user(unique login and password)
+        schema:
+          $ref: '#/definitions/registerdata'
+      responses:
+        200:
+          description: Returns a generated token data
+          schema:
+            $ref: '#/definitions/authdata'
+        400:
+          description: Error. Such user already exists
+  /login:
+    post:
+      summary: Login as an existing user
+      tags: 
+        - Auth
+      parameters:
+      - in: body
+        name: body
+        required: true
+        description: Login data (login and password)
+        schema:
+          $ref: '#/definitions/registerdata'
+      responses:
+        200:
+          description: Returns a generated token data
+          schema:
+            $ref: '#/definitions/authdata'
+        '400':
+          description: Error while logging in
+        '403':
+          description: Passwords don't match
+  /user:
+    get:
+      summary: Get user by token
+      tags: 
+        - Auth
+      security:
+      - Bearer: []
+      responses:
+        '200':
+          description: User object
+          schema:
+            $ref: '#/definitions/userdata'
+###############################################################################                
+#PRODUCTS
+  /products:
+    get:
+      summary: Get all products
+      tags: 
+        - Products
+      security: 
+      - Bearer: []
+      parameters:
+      - in: query
+        name: category
+        required: false
+        type: string
+        description: category name to get products of
+      responses:
+        '200':
+          description: Array of requested products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/product'
+    post:
+      summary: Create a product
+      tags: 
+        - Products
+      security: 
+      - Bearer: []
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/productToCreate'  
+      responses:
+        200:
+          description: Created Product
+          schema:
+            $ref: '#/definitions/product'
+                
+  /products/{id}:
+    get:
+      summary: Get a single product by ID
+      tags: 
+        - Products
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of product
+      responses:
+        '200':
+          description: Product with passed ID
+          schema:
+            $ref: '#/definitions/product'
+    put:
+      summary: Update a single product
+      tags: 
+        - Products
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of products
+      - in: body
+        name: product
+        description: updated product
+        schema:
+          $ref: '#/definitions/productToCreate'
+      responses:
+        '200':
+          description: Product with passed ID
+          schema:
+            $ref: '#/definitions/product'
+              
+    delete:
+      summary: Delete a single product
+      tags: 
+        - Products
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of products
+      responses:
+        '200':
+          description: Object with a success key
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        '404':
+          description: Not found
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              error:
+                  type: string
+###############################################################################
+#CATEGORIES
+  /categories:
+    get:
+      summary: Get all categories
+      tags: 
+        - Categories
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: query
+        name: category
+        required: false
+        type: string
+        description: get category by name
+      responses:
+        '200':
+          description: Array of Categories
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/category'
+    post:
+      summary: Create a category
+      tags: 
+        - Categories
+      security: 
+      - Bearer: []
+      parameters:
+        - in: body
+          name: category
+          description: category to be created
+          schema:
+            $ref: '#/definitions/categoryToCreate'
+      responses:
+        '200':
+          description: Created Category
+          schema:
+            $ref: '#/definitions/category'
+            
+  /categories/{id}:
+    get:
+      summary: Get a single category by id
+      tags: 
+        - Categories
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of category
+      responses:
+        '200':
+          description: Category with passed ID
+          schema:
+            $ref: '#/definitions/category'
+    put:
+      summary: Update a single category
+      tags:
+        - Categories
+      security:
+      - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: id of cateogory
+        - in: body
+          name: category
+          description: category to be created
+          schema:
+            $ref: '#/definitions/categoryToCreate'
+      responses:
+        '200':
+          description: Category with passed ID
+          schema:
+            $ref: '#/definitions/category'
+    delete:
+      summary: Delete a single category
+      tags: 
+        - Categories
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of cateogory
+      responses:
+        '200':
+          description: Object with a success key
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        '404':
+          description: Not found
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              error:
+                type: string
+###############################################################################
+# GENERAL DEFINITIONS
+definitions:
+  registerdata:
+    type: object
+    required:
+    - login
+    - password
+    properties:
+      login:
+        type: string
+      password: 
+        type: string
+  authdata:
+    type: object
+    properties:
+      token:
+        type: string
+      iat:
+        type: integer
+      exp:
+        type: integer
+  userdata:
+    type: object
+    properties:
+      id: 
+        type: string
+      login:
+        type: string
+      password:
+        description: hashed password
+        type: string
+      iat:
+        type: number
+      exp: 
+        type: number
+  product:
+    type: object
+    properties:
+      _id:
+        type: string
+      id:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      category_id:
+        type: string
+      category_title:
+        type: string
+      price: 
+        type: string
+      stock:
+        type: integer
+  productToCreate:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+      category_title:
+        type: string
+      price: 
+        type: string
+      stock:
+        type: integer
+  category:
+    type: object
+    properties:
+      _id:
+        type: string
+      id: 
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+  categoryToCreate:
+    type: object
+    properties:
+      title:
+        type: string
+      description:
+        type: string
+
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+###############################################################################
+# TAGS
+tags:
+
+  - name: Auth
+    description: Authentication
+  
+  - name: Basic
+    description: Basic things
+
+  - name: Products
+    description: Products in store
+
+  - name: Categories
+    description: Categories of products

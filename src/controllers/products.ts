@@ -31,17 +31,13 @@ export class ProductController implements Controller {
 
   private async update(req: Request, res: Response): Promise<void> {
     const result = await productService.update(req.body, req.params.id);
-    res.send(!result.value ? 400 : 200, !result.value ? {error: 'something went wrong'} : {success: true})
+    res.send(!result ? 400 : 200, !result ? {success: false, error: 'something went wrong'} : {success: true})
   }
 
   private async remove(req: Request, res: Response): Promise<void> {
     let result;
-    if (req.query.category) {
-      result = await productService.deleteByTitle(req.query.category);
-    } else {
-      result = await productService.delete(req.params.id);
-    }
-    
+    result = await productService.delete(req.params.id);
+
     res.send(!result.value ? 400 : 200, !result.value  ? {error: 'something went wrong'} : {success: true})
   }
 }
