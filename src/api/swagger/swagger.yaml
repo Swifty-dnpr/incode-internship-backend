@@ -1,14 +1,437 @@
 swagger: "2.0"
 info:
-  version: "0.0.1"
+  version: "1.0.0"
   title: Incode Internship Backend
-  description: 
-    Simple e-commerce back-end application API.
-host: localhost:8000
-basePath: /
-schemes: 
-  - http
-consumes:
-  - application/json
-produces:
-  - application/json
+servers:
+  - url: http://localhost:8000
+    description: Main back-end application
+paths:
+###############################################################################
+# PING
+  /ping:
+    get:
+      summary: Check status of server
+      tags: 
+        - Basic
+      responses:
+        '200':
+          description: Greetings from server
+          content:
+            text/plain:
+              schema:
+                type: string
+###############################################################################
+# AUTHENTICATION
+  /auth:
+    post:
+      summary: Creates a new user
+      tags: 
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerdata'
+      responses:
+        '200':
+          description: Returns a generated token data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authdata'
+        '400':
+          description: Error. Such user already exists
+  /login:
+    post:
+      summary: Login as an existing user
+      tags: 
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/registerdata'
+      responses:
+        '200':
+          description: Returns a generated token data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authdata'
+        '400':
+          description: Error while logging in
+        '403':
+          description: Passwords don't match
+  /user:
+    get:
+      summary: Get user by token
+      tags: 
+        - Auth
+      security:
+      - bearerAuth: []
+      responses:
+        '200':
+          description: User object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userdata'
+###############################################################################                
+#PRODUCTS
+  /products:
+    get:
+      summary: Get all products
+      tags: 
+        - Products
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        description: category name to get products of
+      responses:
+        '200':
+          description: Array of Products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/product'
+    post:
+      summary: Create a product
+      tags: 
+        - Products
+      security: 
+      - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/productToCreate'
+      responses:
+        200:
+          description: Created Product
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'
+                
+  /products/:id:
+    get:
+      summary: Get a single product
+      tags: 
+        - Products
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: id of products
+      responses:
+        '200':
+          description: Product with passed ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'
+    put:
+      summary: Update a single product
+      tags: 
+        - Products
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: id of products
+      requestBody:
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/productToCreate'
+      responses:
+        '200':
+          description: Product with passed ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/product'
+                
+    delete:
+      summary: Delete a single product
+      tags: 
+        - Products
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: id of products
+      responses:
+        '200':
+          description: Object with a success key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+###############################################################################
+#CATEGORIES
+  /categories:
+    get:
+      summary: Get all categories
+      tags: 
+        - Categories
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: query
+        name: category
+        required: false
+        schema:
+          type: string
+        description: get category by name
+      responses:
+        '200':
+          description: Array of Categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/category'
+    post:
+      summary: Create a category
+      tags: 
+        - Categories
+      security: 
+      - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/categoryToCreate'
+      responses:
+        200:
+          description: Created Category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/category'
+                
+  /categories/:id:
+    get:
+      summary: Get a single category by id
+      tags: 
+        - Categories
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: id of category
+      responses:
+        '200':
+          description: Category with passed ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/category'
+    put:
+      summary: Update a single category
+      tags: 
+        - Categories
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: id of cateogory
+      requestBody:
+         content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/categoryToCreate'
+      responses:
+        '200':
+          description: Category with passed ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/category'
+                
+    delete:
+      summary: Delete a single category
+      tags: 
+        - Categories
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: id of category
+      responses:
+        '200':
+          description: Object with a success key
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  error:
+                    type: string
+###############################################################################
+# GENERAL DEFINITIONS
+components:
+  responses:
+    UnauthorizedError:
+      description: Access token is missing or invalid
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt    
+  schemas:
+    registerdata:
+      type: object
+      properties:
+        login:
+          type: string
+        password:
+          type: string
+    authdata:
+      type: object
+      properties:
+        token:
+          type: string
+        iat:
+          type: integer
+        exp:
+          type: integer
+    userdata:
+      type: object
+      properties:
+        id: 
+          type: string
+        login:
+          type: string
+        password:
+          description: hashed password
+          type: string
+        iat:
+          type: number
+        exp: 
+          type: number
+    product:
+      type: object
+      properties:
+        _id:
+          type: string
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category_id:
+          type: string
+        category_title:
+          type: string
+        price: 
+          type: string
+        stock:
+          type: integer
+    productToCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        category_title:
+          type: string
+        price: 
+          type: string
+        stock:
+          type: integer
+    category:
+      type: object
+      properties:
+        _id:
+          type: string
+        id: 
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+    categoryToCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+###############################################################################
+# TAGS
+tags:
+
+  - name: Auth
+    description: Authentication
+  
+  - name: Basic
+    description: Basic things
+
+  - name: Products
+    description: Products in store
+
+  - name: Categories
+    description: Categories of products
