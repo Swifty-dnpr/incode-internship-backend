@@ -1,5 +1,5 @@
 import * as restify from 'restify';
-import * as swaggerUi from 'swagger-ui-restify';
+import * as swaggerUi from 'swagger-ui-dist';
 import * as swaggerTools from 'swagger-tools';
 import * as YAML from 'yamljs';
 import { Server } from "restify";
