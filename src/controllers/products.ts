@@ -35,7 +35,7 @@ export class ProductController implements Controller {
   }
 
   private async create(req: Request, res: Response): Promise<void> {
-    const result: InnerResponse = await productService.create(req.body)
+    const result: InnerResponse = await productService.create(req.body);
 
     BaseController.handleResponse(result, res);
   }
@@ -46,7 +46,7 @@ export class ProductController implements Controller {
     BaseController.handleResponse(result, res);
   }
 
-  private async remove(req: Request, res: Response): Promise<void> {  
+  private async remove(req: Request, res: Response): Promise<void> {
     const result: InnerResponse = await productService.delete(req.params.id);
 
     BaseController.handleResponse(result, res);

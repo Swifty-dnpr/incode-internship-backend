@@ -39,7 +39,7 @@ export class CategoryController implements Controller {
   }
 
   private async create(req: Request, res: Response): Promise<void> {
-    const result: InnerResponse = await categoryService.create(req.body)
+    const result: InnerResponse = await categoryService.create(req.body);
 
     BaseController.handleResponse(result, res);
   }

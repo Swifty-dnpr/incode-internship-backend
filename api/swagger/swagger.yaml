@@ -1,6 +1,6 @@
-swagger: "2.0"
+swagger: '2.0'
 info:
-  version: "1.0.0"
+  version: '1.0.0'
   title: Incode Internship Backend
   description: Documentation for shop API
 host: localhost:8000
@@ -14,10 +14,10 @@ paths:
       summary: Check status of server
       tags: 
         - Basic
-      operationId: "pingServer"
+      operationId: 'pingServer'
       responses:
         200:
-          description: "Greetings from server"
+          description: 'Greetings from server'
           schema:
             type: string
             example: hello
@@ -31,9 +31,9 @@ paths:
       tags: 
         - Auth
       produces:
-        - "application/json"
+        - 'application/json'
       consumes:
-        - "application/json"
+        - 'application/json'
       parameters:
       - in: body
         name: body
@@ -463,7 +463,7 @@ definitions:
         example: 1534924678
       token:
         type: string
-        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QxIiwicGFzc3dvcmQiOiIkMmIkMTIkSXVDaUVNRlRpTElMSERmNmxVbGJKT0ExWmxzLmNCOVUzVHFWV2pUV25pQlFDSzk1NDhNM20iLCJfaWQiOiI1YjdkMTc4NjU5MGYyMzYyNWY3ZTBjZjgiLCJpZCI6IjViN2QxNzg2NTkwZjIzNjI1ZjdlMGNmOCIsImlhdCI6MTUzNDkyNDY3OCwiZXhwIjoxNTM0OTI3Mzc4fQ.uUrXvlAh-4kl--PaUh13koGJWG5aeLzM71qH8WZGbqc"
+        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QxIiwicGFzc3dvcmQiOiIkMmIkMTIkSXVDaUVNRlRpTElMSERmNmxVbGJKT0ExWmxzLmNCOVUzVHFWV2pUV25pQlFDSzk1NDhNM20iLCJfaWQiOiI1YjdkMTc4NjU5MGYyMzYyNWY3ZTBjZjgiLCJpZCI6IjViN2QxNzg2NTkwZjIzNjI1ZjdlMGNmOCIsImlhdCI6MTUzNDkyNDY3OCwiZXhwIjoxNTM0OTI3Mzc4fQ.uUrXvlAh-4kl--PaUh13koGJWG5aeLzM71qH8WZGbqc'
   failedResponse:
     type: object
     properties:

@@ -1,9 +1,9 @@
 import * as restify from 'restify';
 import * as swaggerTools from 'swagger-tools';
 import * as YAML from 'yamljs';
-import { Server } from "restify";
+import { Server } from 'restify';
 
-const swaggerDocs = YAML.load(__dirname + '/../api/swagger/swagger.yaml')
+const swaggerDocs = YAML.load(__dirname + '/../../api/swagger/swagger.yaml')
 
 export class SwaggerServer {
   private restify: Server;

@@ -14,7 +14,7 @@ export class Product {
 
   @Column()
   public category_id: ObjectID;
-  
+
   @Column()
   public category_title: string;
 

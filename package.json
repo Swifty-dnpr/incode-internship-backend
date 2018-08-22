@@ -1,5 +1,5 @@
 {
-  "name": "ts-node-test",
+  "name": "incode-internship-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,8 @@
     "build": "rimraf build && tsc",
     "start-server": "node build/index.js",
     "start": "nodemon --exec ts-node src/index.ts",
-    "typeorm": "./node_modules/.bin/typeorm"
+    "typeorm": "./node_modules/.bin/typeorm",
+    "lint": "tslint --config ./tslint.json --project ./tsconfig.json"
   },
   "keywords": [],
   "author": "",
@@ -31,5 +32,8 @@
     "typeorm": "^0.3.0-alpha.10",
     "typescript": "^2.8.1",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "tslint": "5.9.1"
   }
 }

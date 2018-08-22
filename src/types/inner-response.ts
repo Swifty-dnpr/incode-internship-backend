@@ -1,3 +1,5 @@
+import { ResponseData } from './response-data';
+
 export class InnerResponse {
   status: number;
   data: ResponseData;
@@ -6,12 +8,7 @@ export class InnerResponse {
     this.status = status;
     this.data = {
       success: status < 300,
-      ...data
+      ...data,
     };
   }
-}
-
-export class ResponseData {
-  success: boolean;
-  [key: string]: any;
 }

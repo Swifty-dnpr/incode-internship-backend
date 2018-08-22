@@ -1,5 +1,5 @@
 import { createConnection, Connection } from 'typeorm';
-import * as config from '../../ormconfig.json';
+import * as app_config from '../../ormconfig.json';
 import { Product, Category, User } from '../models';
 
 export interface DatabaseConfiguration {
@@ -14,7 +14,7 @@ export class DatabaseProvider {
   private static configuration: DatabaseConfiguration;
 
   public static configure(config: DatabaseConfiguration): void {
-    DatabaseProvider.configuration = config;
+    DatabaseProvider.configuration = app_config;
   }
 
   public static async getConnection(): Promise<Connection> {
@@ -24,15 +24,15 @@ export class DatabaseProvider {
     }
 
     DatabaseProvider.connection = await createConnection({
-      type: "mongodb",
-      host: "localhost",
+      type: 'mongodb',
+      host: 'localhost',
       port: 27017,
-      database: "ng-commerce",
+      database: 'ng-commerce',
       entities: [Category, User, Product],
       logging: false,
-      synchronize: true
+      synchronize: true,
     });
 
-   return DatabaseProvider.connection;
+    return DatabaseProvider.connection;
   }
 }

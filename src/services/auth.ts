@@ -17,7 +17,7 @@ export class AuthService {
       user.password = pwd;
 
       const exists = await connection.mongoManager.findOne(User, {
-        login: userData.login
+        login: userData.login,
       });
 
       if (exists && exists.id) {
@@ -39,7 +39,7 @@ export class AuthService {
 
     try {
       const user = await connection.mongoManager.findOne(User, {
-        login: userData.login
+        login: userData.login,
       });
 
       if (!user) {
