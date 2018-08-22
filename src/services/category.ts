@@ -1,75 +1,97 @@
 import { DatabaseProvider } from "../database/database";
 import { Category } from "../models/Category";
 import { ObjectId } from 'mongodb';
-import { ObjectID } from 'typeorm';
+import { InnerResponse } from "../types";
 
 export class CategoryService {
-  public async getById(id: string): Promise<Category> {
+  public async getById(id: string): Promise<InnerResponse> {
     console.log(`Getting category with id: ${id}`);
-    const connection = await DatabaseProvider.getConnection();
     try {
-      return await connection.mongoManager.findOne(Category, id);
-    } catch (err) {
-      throw new Error(err);
+      const connection = await DatabaseProvider.getConnection();  
+      const category = await connection.mongoManager.findOne(Category, id);
+
+      if (!category) {
+        return new InnerResponse(404, {error: `Could not find a category with id ${id}`});
+      }
+
+      return new InnerResponse(200, { category });
+    }
+    catch (error) {
+      return new InnerResponse(400, { error })
     }
   }
 
-  public async getByTitle(title: string): Promise<Category> {
+  public async getByTitle(title: string): Promise<InnerResponse> {
     console.log(`Getting category with title: ${title}`);
     const connection = await DatabaseProvider.getConnection();
     try {
-      return await connection.mongoManager.findOne(Category, {alias: title.toLowerCase()});
-    } catch (err) {
-      throw new Error(err);
+      const categories = await connection.mongoManager.findOne(Category, {alias: title.toLowerCase()});
+
+      return new InnerResponse(200, { categories });
+    }
+    catch (error) {
+      return new InnerResponse(400, { error })
     }
   }
 
-  public async create(category: Category): Promise<Category> {
+  public async create(category: Category): Promise<InnerResponse> {
     console.log('Creating new category')
     const ctgry = new Category();
     ctgry.title = category.title;
     ctgry.alias = category.title.split(' ').join('').toLowerCase();
     ctgry.description = category.description;
-    const connection = await DatabaseProvider.getConnection();
-    const manager = connection.mongoManager;
+
     try {
-      return await manager.save(ctgry);
-    } catch (err) {
-      throw new Error(err);
+      const connection = await DatabaseProvider.getConnection();
+      await connection.mongoManager.save(Category, ctgry);
+
+      return new InnerResponse(200, undefined);
+    }
+    catch (error) {
+      return new InnerResponse(400, { error })
     }
     
   }
 
-  public async list(): Promise<Category[]> {
+  public async list(): Promise<InnerResponse> {
     console.log('Returning list of categories');
     const connection = await DatabaseProvider.getConnection();
-    return await connection.mongoManager.find(Category);
+    const categories = await connection.mongoManager.find(Category);
+
+    return new InnerResponse(200, { categories });
   }
 
-  public async update(category: {body: string, title: string}, id: string): Promise<Object> {
+  public async update(category: {body: string, title: string}, id: string): Promise<InnerResponse> {
      console.log('Updating a category')
      const connection = await DatabaseProvider.getConnection();
      const manager = connection.mongoManager; 
      const _id = new ObjectId(id);
+
       try {
-        return await manager.findOneAndUpdate(Category,
+        await manager.findOneAndUpdate(Category,
           {_id}, 
           category, 
           {upsert: false});
-      } catch (err) {
-        throw new Error(err);
+
+        return new InnerResponse(200, undefined);
+      }
+      catch (error) {
+        return new InnerResponse(400, error);
       }
   }
 
-  public async delete(id: ObjectId): Promise<Object> {
+  public async delete(id: ObjectId): Promise<InnerResponse> {
     console.log('Deleting a category');
     const connection = await DatabaseProvider.getConnection();
     const manager = connection.mongoManager; 
     const _id = new ObjectId(id);
       try {
-        return await manager.findOneAndDelete(Category, {_id} );
-      } catch (err) {
-        throw new Error(err);
+        await manager.findOneAndDelete(Category, {_id} );
+
+        return new InnerResponse(200, undefined);
+      }
+      catch (error) {
+        return new InnerResponse(400, error);
       }
   }
 }

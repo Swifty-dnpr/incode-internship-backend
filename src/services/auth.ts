@@ -3,10 +3,10 @@ import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcrypt';
 import * as config from '../../config.json';
 import { User } from '../models';
-import { AuthData } from '../types';
+import { AuthData, InnerResponse } from '../types';
 
 export class AuthService {
-  public async authenticate(userData: AuthData): Promise<any> {
+  public async authenticate(userData: AuthData): Promise<InnerResponse> {
     console.log(`authenticating ${userData.login}`);
     const connection = await DatabaseProvider.getConnection();
 
@@ -15,29 +15,24 @@ export class AuthService {
       const user = new User();
       user.login = userData.login;
       user.password = pwd;
+
       const exists = await connection.mongoManager.findOne(User, {
         login: userData.login
       });
 
       if (exists && exists.id) {
-        return {
-          status: 400,
-          data: {
-            success: false,
-            error: 'such user already exists'
-          }
-        };
+        return new InnerResponse(403, { error: 'such user already exists' })
       }
 
-      const result = await connection.mongoManager.save(user);
+      const result = await connection.mongoManager.save(User, user);
 
-      return { status: 200, data: this.signToken(result) };
+      return new InnerResponse(200, {...this.signToken(result)});
     } catch (error) {
-      return { status: 400, data: { error } };
+      return new InnerResponse(400, { error });
     }
   }
 
-  public async login(userData: AuthData): Promise<any> {
+  public async login(userData: AuthData): Promise<InnerResponse> {
     console.log(`logging in as ${userData.login}`);
 
     const connection = await DatabaseProvider.getConnection();
@@ -46,21 +41,21 @@ export class AuthService {
       const user = await connection.mongoManager.findOne(User, {
         login: userData.login
       });
+
+      if (!user) {
+        return new InnerResponse(404, { error: 'User not found' });
+      }
+
       const match = await bcrypt.compare(userData.password, user.password);
 
       if (!match) {
-        return {
-          status: 403,
-          data: {
-            success: false,
-            error: "Passwords don't match"
-          }
-        };
+        return new InnerResponse(403, {error: 'Passwords don\'t match'})
       }
 
-      return { status: 200, data: this.signToken(user) };
+      return new InnerResponse(200, {...this.signToken(user)});
     } catch (error) {
-      return { status: 400, data: { success: false, error } };
+      console.log(error)
+      return new InnerResponse(400, { error });
     }
   }
 
@@ -70,6 +65,7 @@ export class AuthService {
     });
 
     const { iat, exp } = jwt.decode(token);
+
     return { iat, exp, token };
   }
 }

@@ -2,6 +2,7 @@ import { Request, Response } from 'restify';
 import { Controller } from './controller';
 import { HttpServer } from '../server/httpServer';
 import { authService } from '../services/auth';
+import { InnerResponse } from '../types';
 
 export class AuthController implements Controller {
   public initialize(httpServer: HttpServer): void {
@@ -10,18 +11,18 @@ export class AuthController implements Controller {
     httpServer.post('/login', this.login.bind(this));
   }
 
-  private async authenticate(req: Request, res: Response): Promise<any> {
-    const result = await authService.authenticate(req.body);
+  private async authenticate(req: Request, res: Response): Promise<void> {
+    const result: InnerResponse = await authService.authenticate(req.body);
     res.status(result.status);
     res.send(result.data);
   }
 
-  private async getUser(req: Request & {user: any}, res: Response): Promise<any> {
+  private async getUser(req: Request & {user: any}, res: Response): Promise<void> {
     res.send(req.user);
   }
 
-  private async login(req: Request & {user: any}, res: Response): Promise<any> {
-    const result = await authService.login(req.body);
+  private async login(req: Request, res: Response): Promise<void> {
+    const result: InnerResponse = await authService.login(req.body);
     res.status(result.status);
     res.send(result.data);
   }

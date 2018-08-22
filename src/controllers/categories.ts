@@ -2,6 +2,7 @@ import { Controller } from './controller';
 import { HttpServer } from '../server/httpServer';
 import { categoryService } from '../services/category';
 import { Request, Response } from 'restify';
+import { InnerResponse } from '../types';
 
 export class CategoryController implements Controller {
   public initialize(httpServer: HttpServer): void {
@@ -14,34 +15,47 @@ export class CategoryController implements Controller {
 
   private async list(req: Request, res: Response): Promise<void> {
     if (req.query.title) {
-      res.send(await categoryService.getByTitle(req.query.title))
-      return;
+      return this.getByTitle(req, res);
     }
-    res.send(await categoryService.list());
+
+    const result: InnerResponse = await categoryService.list();
+
+    res.status(result.status);
+    res.send(result.data);
+  }
+
+  private async getByTitle(req: Request, res: Response): Promise<void> {
+    const result: InnerResponse = await categoryService.getByTitle(req.query.title);
+
+    res.status(result.status);
+    res.send(result.data);
   }
 
   private async getById(req: Request, res: Response): Promise<void> {
-    const category = await categoryService.getById(req.params.id);
-    res.send(category ? 200 : 404, category ? category : {error: 'Not found'});
+    const result: InnerResponse = await categoryService.getById(req.params.id);
+
+    res.status(result.status);
+    res.send(result.data);
   }
 
   private async create(req: Request, res: Response): Promise<void> {
-    res.send(await categoryService.create(req.body));
+    const result: InnerResponse = await categoryService.create(req.body)
+
+    res.status(result.status);
+    res.send(result.data);
   }
 
   private async update(req: Request, res: Response): Promise<void> {
-    const result = await categoryService.update(req.body, req.params.id);
-    res.send(!result.value ? 400 : 200, !result.value ? {error: 'something went wrong'} : {success: true})
+    const result: InnerResponse = await categoryService.update(req.body, req.params.id);
+
+    res.status(result.status);
+    res.send(result.data);
   }
 
   private async remove(req: Request, res: Response): Promise<void> {
-    let result;
-    if (req.query.title) {
-      result = await categoryService.deleteByTitle(req.query.title);
-    } else {
-      result = await categoryService.delete(req.params.id);
-    }
-    
-    res.send(!result.value ? 400 : 200, !result.value  ? {error: 'something went wrong'} : {success: true})
+    const result: InnerResponse  = await categoryService.delete(req.params.id);
+
+    res.status(result.status);
+    res.send(result.data);
   }
 }

@@ -2,6 +2,7 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: Incode Internship Backend
+  description: Documentation for shop API
 host: localhost:8000
 schemes:
   - http
@@ -17,6 +18,9 @@ paths:
       responses:
         200:
           description: "Greetings from server"
+          schema:
+            type: string
+            example: hello
           
 ###############################################################################
 # AUTHENTICATION
@@ -41,9 +45,11 @@ paths:
         200:
           description: Returns a generated token data
           schema:
-            $ref: '#/definitions/authdata'
+            $ref: '#/definitions/successAuth'
         400:
           description: Error. Such user already exists
+          schema:
+            $ref: '#/definitions/failedResponse'
   /login:
     post:
       summary: Login as an existing user
@@ -60,11 +66,15 @@ paths:
         200:
           description: Returns a generated token data
           schema:
-            $ref: '#/definitions/authdata'
-        '400':
+            $ref: '#/definitions/successAuth'
+        400:
           description: Error while logging in
-        '403':
+          schema:
+            $ref: '#/definitions/failedResponse'
+        403:
           description: Passwords don't match
+          schema:
+            $ref: '#/definitions/failedResponse'
   /user:
     get:
       summary: Get user by token
@@ -73,7 +83,7 @@ paths:
       security:
       - Bearer: []
       responses:
-        '200':
+        200:
           description: User object
           schema:
             $ref: '#/definitions/userdata'
@@ -93,7 +103,7 @@ paths:
         type: string
         description: category name to get products of
       responses:
-        '200':
+        200:
           description: Array of requested products
           schema:
             type: array
@@ -131,7 +141,7 @@ paths:
         type: string
         description: id of product
       responses:
-        '200':
+        200:
           description: Product with passed ID
           schema:
             $ref: '#/definitions/product'
@@ -153,7 +163,7 @@ paths:
         schema:
           $ref: '#/definitions/productToCreate'
       responses:
-        '200':
+        200:
           description: Product with passed ID
           schema:
             $ref: '#/definitions/product'
@@ -171,22 +181,17 @@ paths:
         type: string
         description: id of products
       responses:
-        '200':
+        200:
           description: Object with a success key
           schema:
             type: object
             properties:
               success:
                 type: boolean
-        '404':
+        404:
           description: Not found
           schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              error:
-                  type: string
+            $ref: '#/definitions/failedResponse'
 ###############################################################################
 #CATEGORIES
   /categories:
@@ -203,12 +208,18 @@ paths:
         type: string
         description: get category by name
       responses:
-        '200':
+        200:
           description: Array of Categories
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/category'
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              categories:
+                type: array
+                items:
+                  $ref: '#/definitions/category'
     post:
       summary: Create a category
       tags: 
@@ -222,10 +233,17 @@ paths:
           schema:
             $ref: '#/definitions/categoryToCreate'
       responses:
-        '200':
+        200:
           description: Created Category
           schema:
-            $ref: '#/definitions/category'
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/category'
             
   /categories/{id}:
     get:
@@ -241,10 +259,17 @@ paths:
         type: string
         description: id of category
       responses:
-        '200':
+        200:
           description: Category with passed ID
           schema:
-            $ref: '#/definitions/category'
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/category'
     put:
       summary: Update a single category
       tags:
@@ -263,10 +288,25 @@ paths:
           schema:
             $ref: '#/definitions/categoryToCreate'
       responses:
-        '200':
+        200:
           description: Category with passed ID
           schema:
-            $ref: '#/definitions/category'
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/category'
+        400:
+          description: Unknown error
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/failedResponse'
     delete:
       summary: Delete a single category
       tags: 
@@ -280,22 +320,18 @@ paths:
         type: string
         description: id of cateogory
       responses:
-        '200':
+        200:
           description: Object with a success key
           schema:
             type: object
             properties:
               success:
                 type: boolean
-        '404':
+        404:
           description: Not found
           schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-              error:
-                type: string
+            $ref: '#/definitions/failedResponse'
+
 ###############################################################################
 # GENERAL DEFINITIONS
 definitions:
@@ -307,8 +343,34 @@ definitions:
     properties:
       login:
         type: string
+        example: user
       password: 
         type: string
+        example: password
+  successAuth:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: true
+      iat:
+        type: integer
+        example: 1534924678
+      exp:
+        type: integer
+        example: 1534924678
+      token:
+        type: string
+        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InRlc3QxIiwicGFzc3dvcmQiOiIkMmIkMTIkSXVDaUVNRlRpTElMSERmNmxVbGJKT0ExWmxzLmNCOVUzVHFWV2pUV25pQlFDSzk1NDhNM20iLCJfaWQiOiI1YjdkMTc4NjU5MGYyMzYyNWY3ZTBjZjgiLCJpZCI6IjViN2QxNzg2NTkwZjIzNjI1ZjdlMGNmOCIsImlhdCI6MTUzNDkyNDY3OCwiZXhwIjoxNTM0OTI3Mzc4fQ.uUrXvlAh-4kl--PaUh13koGJWG5aeLzM71qH8WZGbqc"
+  failedResponse:
+    type: object
+    properties:
+      success: 
+        type: boolean
+        default: false
+      error: 
+        type: string
+        example: Something went wrong
   authdata:
     type: object
     properties:
@@ -321,17 +383,25 @@ definitions:
   userdata:
     type: object
     properties:
+      _id: 
+        type: string
+        example: 5b7d1786590f23625f7e0cf8
       id: 
         type: string
+        example: 5b7d1786590f23625f7e0cf8
       login:
         type: string
+        example: user
       password:
-        description: hashed password
         type: string
+        description: hashed password
+        example: $2b$12$IuCiEMFTiLILHDf6lUlbJOA1Zls.cB9U3TqVWjTWniBQCK9548M3m
       iat:
         type: number
+        example: 1534924678
       exp: 
         type: number
+        example: 1534924678
   product:
     type: object
     properties:
