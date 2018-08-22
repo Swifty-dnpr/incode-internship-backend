@@ -47,7 +47,7 @@ paths:
           schema:
             $ref: '#/definitions/successAuth'
         400:
-          description: Error. Such user already exists
+          description: Error occured see the error field in response
           schema:
             $ref: '#/definitions/failedResponse'
   /login:
@@ -68,7 +68,7 @@ paths:
           schema:
             $ref: '#/definitions/successAuth'
         400:
-          description: Error while logging in
+          description: Error occured see the error field in response
           schema:
             $ref: '#/definitions/failedResponse'
         403:
@@ -89,6 +89,7 @@ paths:
             $ref: '#/definitions/userdata'
 ###############################################################################                
 #PRODUCTS
+
   /products:
     get:
       summary: Get all products
@@ -106,9 +107,20 @@ paths:
         200:
           description: Array of requested products
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/product'
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              products:
+                type: array
+                items:
+                  $ref: '#/definitions/product'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+
     post:
       summary: Create a product
       tags: 
@@ -125,8 +137,19 @@ paths:
         200:
           description: Created Product
           schema:
-            $ref: '#/definitions/product'
-                
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              product:
+                type: object
+                $ref: '#/definitions/product'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+
   /products/{id}:
     get:
       summary: Get a single product by ID
@@ -144,7 +167,23 @@ paths:
         200:
           description: Product with passed ID
           schema:
-            $ref: '#/definitions/product'
+            type: object
+            properties: 
+              success:
+                type: boolean
+                example: true
+              product:
+                type: object
+                $ref: '#/definitions/product'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
     put:
       summary: Update a single product
       tags: 
@@ -167,7 +206,14 @@ paths:
           description: Product with passed ID
           schema:
             $ref: '#/definitions/product'
-              
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
     delete:
       summary: Delete a single product
       tags: 
@@ -188,12 +234,16 @@ paths:
             properties:
               success:
                 type: boolean
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
         404:
           description: Not found
           schema:
             $ref: '#/definitions/failedResponse'
 ###############################################################################
-#CATEGORIES
+# CATEGORIES
   /categories:
     get:
       summary: Get all categories
@@ -220,6 +270,10 @@ paths:
                 type: array
                 items:
                   $ref: '#/definitions/category'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
     post:
       summary: Create a category
       tags: 
@@ -244,7 +298,11 @@ paths:
               category:
                 type: object
                 $ref: '#/definitions/category'
-            
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+
   /categories/{id}:
     get:
       summary: Get a single category by id
@@ -270,6 +328,15 @@ paths:
               category:
                 type: object
                 $ref: '#/definitions/category'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
     put:
       summary: Update a single category
       tags:
@@ -300,13 +367,14 @@ paths:
                 type: object
                 $ref: '#/definitions/category'
         400:
-          description: Unknown error
+          description: Error occured see the error field in response
           schema:
             $ref: '#/definitions/failedResponse'
         404:
-          description: Not Found
+          description: Not found
           schema:
             $ref: '#/definitions/failedResponse'
+
     delete:
       summary: Delete a single category
       tags: 
@@ -327,8 +395,42 @@ paths:
             properties:
               success:
                 type: boolean
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
         404:
           description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+  /categories/{id}/count:
+    get:
+      summary: Returns a count of products in a category
+      tags:
+        - Categories
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: id of category
+      responses:
+        200:
+          description: Object representing product count of a specified category
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              count:
+                type: integer
+                example: 1
+        400:
+          description: Error occured see the error field in response
           schema:
             $ref: '#/definitions/failedResponse'
 
@@ -370,7 +472,7 @@ definitions:
         default: false
       error: 
         type: string
-        example: Something went wrong
+        example: Error string representing what went wrong
   authdata:
     type: object
     properties:
@@ -383,9 +485,6 @@ definitions:
   userdata:
     type: object
     properties:
-      _id: 
-        type: string
-        example: 5b7d1786590f23625f7e0cf8
       id: 
         type: string
         example: 5b7d1786590f23625f7e0cf8
@@ -405,8 +504,6 @@ definitions:
   product:
     type: object
     properties:
-      _id:
-        type: string
       id:
         type: string
       title:
@@ -437,8 +534,6 @@ definitions:
   category:
     type: object
     properties:
-      _id:
-        type: string
       id: 
         type: string
       title:

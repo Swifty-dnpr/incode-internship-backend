@@ -3,6 +3,8 @@ import { HttpServer } from '../server/httpServer';
 import { categoryService } from '../services/category';
 import { Request, Response } from 'restify';
 import { InnerResponse } from '../types';
+import { BaseController } from './base';
+import { productService } from '../services/product';
 
 export class CategoryController implements Controller {
   public initialize(httpServer: HttpServer): void {
@@ -11,6 +13,7 @@ export class CategoryController implements Controller {
     httpServer.post('/categories', this.create.bind(this));
     httpServer.put('/categories/:id', this.update.bind(this));
     httpServer.delete('/categories/:id', this.remove.bind(this));
+    httpServer.get('/categories/:id/count', this.getCount.bind(this));
   }
 
   private async list(req: Request, res: Response): Promise<void> {
@@ -20,42 +23,42 @@ export class CategoryController implements Controller {
 
     const result: InnerResponse = await categoryService.list();
 
-    res.status(result.status);
-    res.send(result.data);
+    BaseController.handleResponse(result, res);
   }
 
   private async getByTitle(req: Request, res: Response): Promise<void> {
     const result: InnerResponse = await categoryService.getByTitle(req.query.title);
 
-    res.status(result.status);
-    res.send(result.data);
+    BaseController.handleResponse(result, res);
   }
 
   private async getById(req: Request, res: Response): Promise<void> {
     const result: InnerResponse = await categoryService.getById(req.params.id);
 
-    res.status(result.status);
-    res.send(result.data);
+    BaseController.handleResponse(result, res);
   }
 
   private async create(req: Request, res: Response): Promise<void> {
     const result: InnerResponse = await categoryService.create(req.body)
 
-    res.status(result.status);
-    res.send(result.data);
+    BaseController.handleResponse(result, res);
   }
 
   private async update(req: Request, res: Response): Promise<void> {
     const result: InnerResponse = await categoryService.update(req.body, req.params.id);
 
-    res.status(result.status);
-    res.send(result.data);
+    BaseController.handleResponse(result, res);
   }
 
   private async remove(req: Request, res: Response): Promise<void> {
     const result: InnerResponse  = await categoryService.delete(req.params.id);
 
-    res.status(result.status);
-    res.send(result.data);
+    BaseController.handleResponse(result, res);
+  }
+
+  private async getCount(req: Request, res: Response): Promise<void> {
+    const result: InnerResponse = await productService.getCountOfCategory(req.params.id);
+
+    BaseController.handleResponse(result, res);
   }
 }

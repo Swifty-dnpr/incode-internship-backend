@@ -55,22 +55,38 @@ export class CategoryService {
 
   public async list(): Promise<InnerResponse> {
     console.log('Returning list of categories');
-    const connection = await DatabaseProvider.getConnection();
-    const categories = await connection.mongoManager.find(Category);
+    try {
+      const connection = await DatabaseProvider.getConnection();
+      const categories = await connection.mongoManager.find(Category);
 
-    return new InnerResponse(200, { categories });
+      return new InnerResponse(200, { categories });
+    }
+    catch (error) {
+      return new InnerResponse(400, { error: 'Something went wrong' });
+    }
   }
 
   public async update(category: {body: string, title: string}, id: string): Promise<InnerResponse> {
-     console.log('Updating a category')
-     const connection = await DatabaseProvider.getConnection();
-     const manager = connection.mongoManager; 
+     console.log(`Updating a category an id ${id}`);
+     if (!id || id.length < 1) {
+       return new InnerResponse(404, { error: `Category with id:${id} does not exist and can not be updated` });
+     }
+  
      const _id = new ObjectId(id);
 
       try {
-        await manager.findOneAndUpdate(Category,
+        const connection = await DatabaseProvider.getConnection();
+        const existingCategory: Category = await connection.mongoManager.findOne(Category, { _id });
+
+        if (!existingCategory) {
+          return new InnerResponse(404, { error: `Category with id:${id} does not exist and can not be updated` });
+        }
+
+        Object.assign(existingCategory, category);
+
+        await connection.mongoManager.findOneAndUpdate(Category,
           {_id}, 
-          category, 
+          existingCategory, 
           {upsert: false});
 
         return new InnerResponse(200, undefined);

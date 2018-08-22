@@ -3,7 +3,7 @@ import { Entity, ObjectID, ObjectIdColumn, Column } from 'typeorm';
 @Entity()
 export class Category {
 
-  @ObjectIdColumn()
+  @ObjectIdColumn({ name: '_id' })
   public id: ObjectID;
 
   @Column({ length: 255 })

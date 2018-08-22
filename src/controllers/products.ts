@@ -2,6 +2,8 @@ import { Controller } from './controller';
 import { HttpServer } from '../server/httpServer';
 import { productService } from '../services/product';
 import { Request, Response } from 'restify';
+import { InnerResponse } from '../types';
+import { BaseController } from './base';
 
 export class ProductController implements Controller {
   public initialize(httpServer: HttpServer): void {
@@ -13,31 +15,40 @@ export class ProductController implements Controller {
   }
 
   private async list(req: Request, res: Response): Promise<void> {
-    if (req.query.title) {
-      res.send(await productService.getByCategory(req.query.title))
-      return;
+    let result: InnerResponse;
+
+    if (req.query.category) {
+      result = await productService.getByCategory(req.query.category);
+
+      return BaseController.handleResponse(result, res);
     }
-    res.send(await productService.list());
+
+    result = await productService.list();
+
+    BaseController.handleResponse(result, res);
   }
 
   private async getById(req: Request, res: Response): Promise<void> {
-    const product = await productService.getById(req.params.id);
-    res.send(product ? 200 : 404, product ? product : {error: 'Not found'});
+    const result: InnerResponse = await productService.getById(req.params.id);
+
+    BaseController.handleResponse(result, res);
   }
 
   private async create(req: Request, res: Response): Promise<void> {
-    res.send(await productService.create(req.body));
+    const result: InnerResponse = await productService.create(req.body)
+
+    BaseController.handleResponse(result, res);
   }
 
   private async update(req: Request, res: Response): Promise<void> {
-    const result = await productService.update(req.body, req.params.id);
-    res.send(!result ? 400 : 200, !result ? {success: false, error: 'something went wrong'} : {success: true})
+    const result: InnerResponse = await productService.update(req.body, req.params.id);
+
+    BaseController.handleResponse(result, res);
   }
 
-  private async remove(req: Request, res: Response): Promise<void> {
-    let result;
-    result = await productService.delete(req.params.id);
+  private async remove(req: Request, res: Response): Promise<void> {  
+    const result: InnerResponse = await productService.delete(req.params.id);
 
-    res.send(!result.value ? 400 : 200, !result.value  ? {error: 'something went wrong'} : {success: true})
+    BaseController.handleResponse(result, res);
   }
 }

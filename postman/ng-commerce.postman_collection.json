@@ -10,7 +10,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "Authenticate(by token)",
+					"name": "/auth",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -39,7 +39,7 @@
 					"response": []
 				},
 				{
-					"name": "Login",
+					"name": "/login",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -68,7 +68,7 @@
 					"response": []
 				},
 				{
-					"name": "Get user",
+					"name": "/user",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -100,7 +100,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "Get All Products",
+					"name": "/products",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -124,7 +124,7 @@
 					"response": []
 				},
 				{
-					"name": "Create a product",
+					"name": "/products",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -156,7 +156,7 @@
 					"response": []
 				},
 				{
-					"name": "Get products by category name",
+					"name": "/products?category=:category-name",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -187,7 +187,7 @@
 					"response": []
 				},
 				{
-					"name": "Get by ID",
+					"name": "/products/:id",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -220,7 +220,7 @@
 					"response": []
 				},
 				{
-					"name": "Update a Product",
+					"name": "/products/:id",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -260,7 +260,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete by ID",
+					"name": "/product/:id",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -299,7 +299,34 @@
 			"description": "",
 			"item": [
 				{
-					"name": "Create a category",
+					"name": "/categories/:id/count",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViN2QxNzg2NTkwZjIzNjI1ZjdlMGNmOCIsImxvZ2luIjoidGVzdDEiLCJwYXNzd29yZCI6IiQyYiQxMiRJdUNpRU1GVGlMSUxIRGY2bFVsYkpPQTFabHMuY0I5VTNUcVZXalRXbmlCUUNLOTU0OE0zbSIsImlhdCI6MTUzNDk0MzQ2NiwiZXhwIjoxNTM0OTQ2MTY2fQ.HBxK2v_7GklglaoXFxEhtAZSFDlQoIoKDLnvA2mgfqk"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:8000/categories/5b7d307b6738a579378498f4/count",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"categories",
+								"5b7d307b6738a579378498f4",
+								"count"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/categories",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -331,7 +358,7 @@
 					"response": []
 				},
 				{
-					"name": "Get by ID",
+					"name": "/categories/:id",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -363,7 +390,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Categories",
+					"name": "/categories",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -388,7 +415,7 @@
 					"response": []
 				},
 				{
-					"name": "Update by ID",
+					"name": "/categories/:id",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -427,7 +454,7 @@
 					"response": []
 				},
 				{
-					"name": "Delete by ID",
+					"name": "/categories/:id",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -460,7 +487,7 @@
 					"response": []
 				},
 				{
-					"name": "Get by title(alias)",
+					"name": "/categories?title=:title",
 					"request": {
 						"method": "GET",
 						"header": [
