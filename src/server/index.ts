@@ -2,7 +2,7 @@ import { HttpServer } from './httpServer';
 import * as restify from 'restify';
 import { CONTOLLERS } from '../controllers';
 import * as CORS from 'restify-cors-middleware';
-import * as config from '../../config.json';
+import { config } from '../../config';
 import * as rjwt from 'restify-jwt-community';
 import { Controller } from '../controllers/controller';
 

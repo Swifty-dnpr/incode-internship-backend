@@ -92,7 +92,7 @@ export class ProductService {
       Object.assign(existingProduct, prevProduct);
 
       if (!existingProduct.category_id) {
-        const category: Category = await this.createCategoryOrAssignExisting(prevProduct, connection)
+        const category: Category = await this.createCategoryOrAssignExisting(prevProduct, connection);
         existingProduct.category_id = category.id;
       }
 
@@ -107,7 +107,7 @@ export class ProductService {
     }
   }
 
-  public async delete(id: ObjectID): Promise<InnerResponse> {
+  public async delete(id: string): Promise<InnerResponse> {
     console.log(`Deleting a product with id ${id}`);
     try {
       const connection: Connection = await DatabaseProvider.getConnection();
@@ -122,7 +122,7 @@ export class ProductService {
     }
   }
 
-  public async getCountOfCategory(category_id: ObjectID | string): Promise<InnerResponse> {
+  public async getCountOfCategory(category_id: string): Promise<InnerResponse> {
 
     try {
       const connection: Connection = await DatabaseProvider.getConnection();
