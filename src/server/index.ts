@@ -9,7 +9,7 @@ import { Controller } from '../controllers/controller';
 const cors: any = CORS({
   preflightMaxAge: 5,
   origins: ['http://localhost:4200'],
-  allowHeaders: [],
+  allowHeaders: ['Authorization'],
   exposeHeaders: [],
 });
 
