@@ -17,13 +17,7 @@ export class ProductController implements Controller {
   private async list(req: Request, res: Response): Promise<void> {
     let result: InnerResponse;
 
-    if (req.query.category) {
-      result = await productService.getByCategory(req.query.category);
-
-      return BaseController.handleResponse(result, res);
-    }
-
-    result = await productService.list();
+    result = await productService.list(req.query);
 
     BaseController.handleResponse(result, res);
   }

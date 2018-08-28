@@ -1,7 +1,7 @@
 import { Connection, ObjectID } from 'typeorm';
 import { DatabaseProvider } from '../database/database';
 import { Product, Category } from '../models';
-import { InnerResponse } from '../types';
+import { InnerResponse, Filters } from '../types';
 
 export class ProductService {
 
@@ -59,11 +59,12 @@ export class ProductService {
 
   }
 
-  public async list(): Promise<InnerResponse> {
+  public async list(filter: any): Promise<InnerResponse> {
     console.log('Returning list of products');
     try {
+      const filters: Filters = this.buildFilters(filter);
       const connection: Connection = await DatabaseProvider.getConnection();
-      const products: Product[] = await connection.mongoManager.find(Product);
+      const products: Product[] = await connection.mongoManager.find(Product, filters as any);
 
       return new InnerResponse(200, { products });
     }
@@ -79,11 +80,10 @@ export class ProductService {
       return new InnerResponse(404, { error: `Product with id:${id} does not exist and can not be updated` });
     }
 
-    const p_id: ObjectID = new ObjectID(id);
     try {
       const connection: Connection = await DatabaseProvider.getConnection();
 
-      const existingProduct: Product = await connection.mongoManager.findOne(Product, p_id);
+      const existingProduct: Product = await connection.mongoManager.findOne(Product, id);
 
       if (!existingProduct) {
         return new InnerResponse(404, { error: `Product with id:${id} does not exist and can not be updated` });
@@ -149,13 +149,36 @@ export class ProductService {
           description: '',
         };
 
-        category = await connection.mongoManager.save(Category, temp);
+        category = await connection.mongoManager.save(Category, temp) as Category;
       }
     } catch (error) {
       throw new Error(error);
     }
 
     return category;
+  }
+
+  private buildFilters(filters: {price?: string; stock?: string, category?: string }): Filters {
+    const filter: any = {};
+
+    if (filters.price) {
+      filter.price = {
+        $gt: +filters.price.split(' to ')[0],
+        $lt: +filters.price.split(' to ')[1],
+      };
+    }
+
+    if (filters.stock) {
+      filter.stock = {
+        $gt: +filters.stock,
+      };
+    }
+
+    if (filters.category) {
+      filter.category_title = filters.category;
+    }
+
+    return filter;
   }
 
 }

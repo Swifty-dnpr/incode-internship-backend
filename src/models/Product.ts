@@ -19,7 +19,7 @@ export class Product {
   public category_title: string;
 
   @Column()
-  public price: string;
+  public price: number;
 
   @Column()
   public stock: number;
