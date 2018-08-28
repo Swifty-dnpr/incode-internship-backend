@@ -24,4 +24,7 @@ export class Product {
   @Column()
   public stock: number;
 
+  @Column()
+  public thumbnail: string;
+
 }

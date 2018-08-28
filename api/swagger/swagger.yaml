@@ -518,6 +518,8 @@ definitions:
         type: string
       stock:
         type: integer
+      thumbnail:
+        type: string
   productToCreate:
     type: object
     properties:
