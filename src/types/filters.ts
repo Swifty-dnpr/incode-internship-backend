@@ -1,10 +1,10 @@
 export class Filters {
   price?: {
-    $gt: number;
-    $lt: number;
+    $gt?: number;
+    $lt?: number;
   };
   stock?: {
-    $gt: number;
+    $gt?: number;
   };
   category_title?: string;
 }

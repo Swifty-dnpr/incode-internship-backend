@@ -163,10 +163,15 @@ export class ProductService {
     const filter: Filters = {};
 
     if (filters.price) {
+      const [from, to]: string[] = filters.price.split('to');
+
       filter.price = {
-        $gt: +filters.price.split(' to ')[0],
-        $lt: +filters.price.split(' to ')[1],
+        $gt: Number(from),
       };
+
+      if (+to > +from) {
+        filter.price.$lt = Number(to);
+      }
     }
 
     if (filters.stock) {
