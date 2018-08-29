@@ -6,5 +6,5 @@ export class Filters {
   stock?: {
     $gt: number;
   };
-  category?: string;
+  category_title?: string;
 }

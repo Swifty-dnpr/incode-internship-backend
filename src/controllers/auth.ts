@@ -6,6 +6,7 @@ import { Controller } from './controller';
 import { InnerResponse } from '../types';
 
 import { HttpServer } from '../server/httpServer';
+import { User } from '../models';
 
 export class AuthController implements Controller {
   public initialize(httpServer: HttpServer): void {
@@ -20,7 +21,7 @@ export class AuthController implements Controller {
     BaseController.handleResponse(result, res);
   }
 
-  private async getUser(req: Request & {user: any}, res: Response): Promise<void> {
+  private async getUser(req: Request & {user: User}, res: Response): Promise<void> {
     res.send(req.user);
   }
 

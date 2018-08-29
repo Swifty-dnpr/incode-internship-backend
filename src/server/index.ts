@@ -6,7 +6,7 @@ import { config } from '../../config';
 import * as rjwt from 'restify-jwt-community';
 import { Controller } from '../controllers/controller';
 
-const cors: any = CORS({
+const cors: CORS.CorsMiddleware = CORS({
   preflightMaxAge: 5,
   origins: ['http://localhost:4200'],
   allowHeaders: ['Authorization'],

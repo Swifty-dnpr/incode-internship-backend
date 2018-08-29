@@ -1,7 +1,7 @@
-import { Connection, ObjectID } from 'typeorm';
+import { Connection, ObjectID, FindOptions } from 'typeorm';
 import { DatabaseProvider } from '../database/database';
 import { Product, Category } from '../models';
-import { InnerResponse, Filters } from '../types';
+import { InnerResponse, Filters, FiltersObject } from '../types';
 
 export class ProductService {
 
@@ -59,12 +59,12 @@ export class ProductService {
 
   }
 
-  public async list(filter: any): Promise<InnerResponse> {
+  public async list(filter: FiltersObject): Promise<InnerResponse> {
     console.log('Returning list of products');
     try {
       const filters: Filters = this.buildFilters(filter);
       const connection: Connection = await DatabaseProvider.getConnection();
-      const products: Product[] = await connection.mongoManager.find(Product, filters as any);
+      const products: Product[] = await connection.mongoManager.find(Product, filters as FindOptions<Product>);
 
       return new InnerResponse(200, { products });
     }
@@ -73,10 +73,10 @@ export class ProductService {
     }
   }
 
-  public async update(prevProduct: any, id: string): Promise<InnerResponse> {
+  public async update(prevProduct: Product, id: ObjectID): Promise<InnerResponse> {
     console.log(`Updating a product with id ${id}`);
 
-    if (!id || id.length < 1) {
+    if (!id) {
       return new InnerResponse(404, { error: `Product with id:${id} does not exist and can not be updated` });
     }
 
@@ -89,6 +89,8 @@ export class ProductService {
         return new InnerResponse(404, { error: `Product with id:${id} does not exist and can not be updated` });
       }
 
+      delete prevProduct.id;
+
       Object.assign(existingProduct, prevProduct);
 
       if (!existingProduct.category_id) {
@@ -97,7 +99,7 @@ export class ProductService {
       }
 
       await connection.mongoManager.findOneAndUpdate(Product,
-        {_id: existingProduct.id},
+        { _id: existingProduct.id },
         existingProduct,
         {upsert: false});
 
@@ -107,13 +109,12 @@ export class ProductService {
     }
   }
 
-  public async delete(id: string): Promise<InnerResponse> {
+  public async delete(id: ObjectID): Promise<InnerResponse> {
     console.log(`Deleting a product with id ${id}`);
     try {
       const connection: Connection = await DatabaseProvider.getConnection();
-      const p_id: ObjectID = new ObjectID(id);
 
-      await connection.mongoManager.findOneAndDelete(Product, { _id: p_id });
+      await connection.mongoManager.delete(Product, id);
 
       return new InnerResponse(200, undefined);
     }
@@ -158,8 +159,8 @@ export class ProductService {
     return category;
   }
 
-  private buildFilters(filters: {price?: string; stock?: string, category?: string }): Filters {
-    const filter: any = {};
+  private buildFilters(filters: FiltersObject): Filters {
+    const filter: Filters = {};
 
     if (filters.price) {
       filter.price = {

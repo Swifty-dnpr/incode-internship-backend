@@ -67,17 +67,15 @@ export class CategoryService {
     }
   }
 
-  public async update(category: {body: string, title: string}, id: string): Promise<InnerResponse> {
+  public async update(category: {body: string, title: string}, id: ObjectID): Promise<InnerResponse> {
     console.log(`Updating a category an id ${id}`);
-    if (!id || id.length < 1) {
+    if (!id) {
       return new InnerResponse(404, { error: `Category with id:${id} does not exist and can not be updated` });
     }
 
-    const c_id: ObjectID = new ObjectID(id);
-
     try {
       const connection: Connection = await DatabaseProvider.getConnection();
-      const existingCategory: Category = await connection.mongoManager.findOne(Category, c_id);
+      const existingCategory: Category = await connection.mongoManager.findOne(Category, id);
 
       if (!existingCategory) {
         return new InnerResponse(404, { error: `Category with id:${id} does not exist and can not be updated` });
@@ -86,7 +84,7 @@ export class CategoryService {
       Object.assign(existingCategory, category);
 
       await connection.mongoManager.findOneAndUpdate(Category,
-        {c_id},
+        { _id: existingCategory.id },
         existingCategory,
         {upsert: false});
 
@@ -97,13 +95,12 @@ export class CategoryService {
     }
   }
 
-  public async delete(id: string): Promise<InnerResponse> {
+  public async delete(id: ObjectID): Promise<InnerResponse> {
     console.log('Deleting a category');
 
-    const c_id: ObjectID = new ObjectID(id);
     try {
       const connection: Connection = await DatabaseProvider.getConnection();
-      await connection.mongoManager.findOneAndDelete(Category, c_id);
+      await connection.mongoManager.delete(Category, id);
 
       return new InnerResponse(200, undefined);
     }
