@@ -166,7 +166,7 @@ export class ProductService {
       const [from, to]: string[] = filters.price.split('to');
 
       filter.price = {
-        $gt: Number(from),
+        $gt: Number(from) ? Number(from) : 0,
       };
 
       if (+to > +from) {
