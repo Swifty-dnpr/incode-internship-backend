@@ -857,6 +857,8 @@ definitions:
         type: string
       category_title:
         type: string
+      thumbnail:
+        type: string
       price: 
         type: integer
       stock:
