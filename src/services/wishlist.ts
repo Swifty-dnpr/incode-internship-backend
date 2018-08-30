@@ -75,11 +75,8 @@ export class WishlistService {
       if (!existingWishlist) {
         return new InnerResponse(404, { error: `Wishlist of a user with id:${id} does not exist and can not be updated` });
       }
-      const items: Product[] = [
-        ...existingWishlist.items,
-        ...prevWishlist.items,
-      ];
-      Object.assign(existingWishlist, prevWishlist, {items});
+
+      Object.assign(existingWishlist, prevWishlist);
 
       await connection.mongoManager.findOneAndUpdate(Wishlist,
         query,
