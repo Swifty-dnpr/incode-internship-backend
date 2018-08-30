@@ -444,6 +444,165 @@ paths:
           schema:
             $ref: '#/definitions/failedResponse'
 
+##############################################################################
+# ORDERS
+
+  /orders:
+    get:
+      summary: Get all orders
+      tags: 
+        - Orders
+      security: 
+      - Bearer: []
+      responses:
+        200:
+          description: Array of Orders
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              orders:
+                type: array
+                items:
+                  $ref: '#/definitions/order'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+    post:
+      summary: Create an order
+      tags: 
+        - Orders
+      security: 
+      - Bearer: []
+      parameters:
+        - in: body
+          name: order
+          description: order to be created
+          schema:
+            $ref: '#/definitions/orderToCreate'
+      responses:
+        200:
+          description: Created Order
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/order'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+  /orders/{id}:
+    get:
+      summary: Get a single order by id
+      tags: 
+        - Orders
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of order
+      responses:
+        200:
+          description: Order with passed ID
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/order'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+    put:
+      summary: Update a single order
+      tags:
+        - Orders
+      security:
+      - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: id of order
+        - in: body
+          name: order
+          description: order to be created
+          schema:
+            $ref: '#/definitions/orderToCreate'
+      responses:
+        200:
+          description: Order with passed ID
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/order'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+    delete:
+      summary: Delete a single order
+      tags: 
+        - Orders
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of order
+      responses:
+        200:
+          description: Object with a success key
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+
+
 ###############################################################################
 # GENERAL DEFINITIONS
 definitions:
@@ -516,6 +675,7 @@ definitions:
     properties:
       id:
         type: string
+        example: 5b85097083d82c2de542be4b
       title:
         type: string
       description:
@@ -529,6 +689,7 @@ definitions:
         example: 99.99
       stock:
         type: integer
+        example: 1
       thumbnail:
         type: string
   productToCreate:
@@ -560,6 +721,68 @@ definitions:
         type: string
       description:
         type: string
+  orderToCreate:
+    type: object
+    properties:
+      date:
+        type: integer
+        description: date of an order creation
+        example: 1535545788254
+      client:
+        description: user object
+        type: object
+        $ref: '#/definitions/userdata'
+      total: 
+        type: number
+        example: 99.99
+        description: total sum of all the items in order
+      items:
+        type: object
+        description: an object where keys are the ids of products
+        properties: 
+          5b85097083d82c2de542be4b:
+            type: object
+            description: Object representing product and quantity
+            properties:
+              product:
+                $ref: '#/definitions/product'
+              quantity: 
+                type: integer
+                example: 1
+  
+  order:
+    type: object
+    properties:
+      id:
+        type: string
+      date:
+        type: integer
+        description: date of an order creation
+        example: 1535545788254
+      client:
+        description: user object
+        type: object
+        $ref: '#/definitions/userdata'
+      total: 
+        type: number
+        example: 99.99
+        description: total sum of all the items in order
+      items:
+        type: object
+        description: an object where keys are the ids of the products
+        properties: 
+          5b85097083d82c2de542be4b:
+            type: object
+            description: Object representing product and quantity
+            properties:
+              product:
+                $ref: '#/definitions/product'
+              quantity: 
+                type: integer
+                example: 1
+
+
+
 
 
 securityDefinitions:
@@ -582,3 +805,6 @@ tags:
 
   - name: Categories
     description: Categories of products
+  
+  - name: Orders
+    description: Shop Orders
