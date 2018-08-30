@@ -1,6 +1,6 @@
 import { createConnection, Connection } from 'typeorm';
 import * as app_config from '../../ormconfig.json';
-import { Product, Category, User, Order } from '../models';
+import { Product, Category, User, Order, Wishlist } from '../models';
 
 export interface DatabaseConfiguration {
   type: string;
@@ -28,7 +28,7 @@ export class DatabaseProvider {
       host: 'localhost',
       port: 27017,
       database: 'ng-commerce',
-      entities: [Category, User, Product, Order],
+      entities: [Category, User, Product, Order, Wishlist],
       logging: false,
       synchronize: true,
     });

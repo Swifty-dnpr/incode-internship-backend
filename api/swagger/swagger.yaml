@@ -601,6 +601,162 @@ paths:
           schema:
             $ref: '#/definitions/failedResponse'
 
+##############################################################################
+# WISHLISTS
+
+  /wishlists:
+    get:
+      summary: Get all wishlist
+      tags: 
+        - Wishlist
+      security: 
+      - Bearer: []
+      responses:
+        200:
+          description: Array of Wishlists
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              wishlists:
+                type: array
+                items:
+                  $ref: '#/definitions/wishlist'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+    post:
+      summary: Create wishlist
+      tags: 
+        - Wishlist
+      security: 
+      - Bearer: []
+      parameters:
+        - in: body
+          name: wishlist
+          description: wishlist to be created
+          schema:
+            $ref: '#/definitions/wishlistToCreate'
+      responses:
+        200:
+          description: Created Wishlist
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/wishlist'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+  /wishlists/{id}:
+    get:
+      summary: Get a single wishlist by User id
+      tags: 
+        - Wishlist
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of a user
+      responses:
+        200:
+          description: Wishlist with passed User ID
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/wishlist'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+    put:
+      summary: Update a single wishlist
+      tags:
+        - Wishlist
+      security:
+      - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+          description: id of a user
+        - in: body
+          name: wishlist
+          description: wishlist to be created
+          schema:
+            $ref: '#/definitions/wishlistToCreate'
+      responses:
+        200:
+          description: Wishlist with passed User ID
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              category:
+                type: object
+                $ref: '#/definitions/wishlist'
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
+
+    delete:
+      summary: Delete a single wishlist
+      tags: 
+        - Wishlist
+      security: 
+      - Bearer: []
+      parameters: 
+      - in: path
+        name: id
+        required: true
+        type: string
+        description: id of a user
+      responses:
+        200:
+          description: Object with a success key
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        400:
+          description: Error occured see the error field in response
+          schema:
+            $ref: '#/definitions/failedResponse'
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/failedResponse'
 
 
 ###############################################################################
@@ -781,9 +937,31 @@ definitions:
                 type: integer
                 example: 1
 
+  wishlist:
+    type: object
+    properties:
+      id:
+        type: string
+      client:
+        description: user object
+        type: object
+        $ref: '#/definitions/userdata'
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/product'
 
-
-
+  wishlistToCreate:
+    type: object
+    properties:
+      client:
+        description: user object
+        type: object
+        $ref: '#/definitions/userdata'
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/product'
 
 securityDefinitions:
   Bearer:
@@ -808,3 +986,6 @@ tags:
   
   - name: Orders
     description: Shop Orders
+
+  - name: Wishlist
+    description: Wishlists

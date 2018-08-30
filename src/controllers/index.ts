@@ -5,6 +5,7 @@ import { AuthController } from './auth';
 import { ProductController } from './products';
 import { OrderController } from './order';
 import 'reflect-metadata';
+import { WishlistController } from './wishlist';
 
 export const CONTOLLERS: Controller[] = [
   new CategoryController(),
@@ -12,4 +13,5 @@ export const CONTOLLERS: Controller[] = [
   new AuthController(),
   new ProductController(),
   new OrderController(),
+  new WishlistController(),
 ];
