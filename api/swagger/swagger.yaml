@@ -492,7 +492,7 @@ paths:
               success:
                 type: boolean
                 example: true
-              category:
+              order:
                 type: object
                 $ref: '#/definitions/order'
         400:
@@ -522,7 +522,7 @@ paths:
               success:
                 type: boolean
                 example: true
-              category:
+              order:
                 type: object
                 $ref: '#/definitions/order'
         400:
@@ -560,7 +560,7 @@ paths:
               success:
                 type: boolean
                 example: true
-              category:
+              order:
                 type: object
                 $ref: '#/definitions/order'
         400:
@@ -649,7 +649,7 @@ paths:
               success:
                 type: boolean
                 example: true
-              category:
+              wishlist:
                 type: object
                 $ref: '#/definitions/wishlist'
         400:
@@ -679,7 +679,7 @@ paths:
               success:
                 type: boolean
                 example: true
-              category:
+              wishlist:
                 type: object
                 $ref: '#/definitions/wishlist'
         400:
@@ -717,7 +717,7 @@ paths:
               success:
                 type: boolean
                 example: true
-              category:
+              wishlist:
                 type: object
                 $ref: '#/definitions/wishlist'
         400:
